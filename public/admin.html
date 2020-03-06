@@ -31,6 +31,7 @@
   <script type="text/javascript">
     $('#admin-otp').click(function() {
       $.get('/get-otp', {}, function(data) {
+        alert("OTP Sent");
         console.log(data);
       });
     });
