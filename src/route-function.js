@@ -70,7 +70,7 @@ exports.loginAdmin = function(req, res) {
 	});
 }
 
-exports.getOneDeal = function(req, res) {
+exports.getOneDeals = function(req, res) {
 	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM deals WHERE id = "+req.query.id, function(result) {
 		res.json(result);
 	});
@@ -94,7 +94,7 @@ exports.addDeals = function(req, res) {
     var image = req.body.image;
 
 	db.query("INSERT INTO deals (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -110,7 +110,7 @@ exports.editDeals = function(req, res) {
     var image = req.body.image;
 
 	db.query("UPDATE deals SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -138,7 +138,7 @@ exports.addEarn = function(req, res) {
     var image = req.body.image;
 
 	db.query("INSERT INTO earn (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -154,7 +154,7 @@ exports.editEarn = function(req, res) {
     var image = req.body.image;
 
 	db.query("UPDATE earn SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -182,7 +182,7 @@ exports.addLoyalty = function(req, res) {
     var image = req.body.image;
 
 	db.query("INSERT INTO loyalty (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -198,7 +198,7 @@ exports.editLoyalty = function(req, res) {
     var image = req.body.image;
 
 	db.query("UPDATE loyalty SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -226,7 +226,7 @@ exports.addDealOfTheMonth = function(req, res) {
     var image = req.body.image;
 
 	db.query("INSERT INTO deal_of_the_month (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -242,7 +242,7 @@ exports.editDealOfTheMonth = function(req, res) {
     var image = req.body.image;
 
 	db.query("UPDATE deal_of_the_month SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -270,7 +270,7 @@ exports.addDealOfTheWeek = function(req, res) {
     var image = req.body.image;
 
 	db.query("INSERT INTO deal_of_the_week (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
@@ -286,16 +286,17 @@ exports.editDealOfTheWeek = function(req, res) {
     var image = req.body.image;
 
 	db.query("UPDATE deal_of_the_week SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(1);
+		res.json(result);
 	});
 }
 
-exports.admin = function(req, res) {
-	res.sendFile(path.join(__dirname, '../public', 'admin.html'));
-}
-
-exports.client = function(req, res) {
-	res.sendFile(path.join(__dirname, '../public', 'client.html'));
+exports.postImage = function(req, res) {
+	if(req.file) {
+		res.json(req.file);
+	}
+	else {
+		res.json(404);
+	}
 }
 
 exports.getOtp = function(req, res) {

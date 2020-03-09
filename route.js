@@ -1,8 +1,20 @@
 const express = require('express');
 const app = express();
 const rf = require('./src/route-function');
+const multer = require('multer');
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, __dirname + '/public/images');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + '.png');
+    }
+});
+
+const upload = multer({storage});
 
 router.route('/').get(function(req, res) {rf.index(req, res)});
 
@@ -10,7 +22,7 @@ router.route('/register-admin').post(function(req, res) {rf.registerAdmin(req, r
 
 router.route('/login-admin').post(function(req, res) {rf.loginAdmin(req, res)});
 
-router.route('/get-one-deal').get(function(req, res) {rf.getOneDeal(req, res)});
+router.route('/get-one-deals').get(function(req, res) {rf.getOneDeals(req, res)});
 
 router.route('/get-deals').get(function(req, res) {rf.getDeals(req, res)});
 
@@ -50,9 +62,7 @@ router.route('/add-deal-of-the-week').post(function(req, res) {rf.addDealOfTheWe
 
 router.route('/edit-deal-of-the-week').post(function(req, res) {rf.editDealOfTheWeek(req, res)});
 
-router.route('/admin').get(function(req, res) {rf.admin(req, res)});
-
-router.route('/client').get(function(req, res) {rf.client(req, res)});
+router.route('/post-image').post(upload.single('image'), function(req, res) {rf.postImage(req, res)});
 
 router.route('/get-otp').get(function(req, res) {rf.getOtp(req, res)});
 

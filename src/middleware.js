@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+function getFirstPath(path) {
+	return '/' + path.split('/')[1].split('/')[0];
+}
+
 exports.getDate = function() {
 	let currentdate = new Date();
 	let day = currentdate.getDate();
@@ -16,6 +20,7 @@ exports.getDate = function() {
 exports.beforeEndPoint = function(req, res, next) {
 	if(req.path != '/login-admin' && 
 		req.path != '/register-admin' && 
+		getFirstPath(req.path) != '/images' && 
 		req.path != '/logout') {
 		const bearerHeader = req.headers['authorization'];
 		if(typeof bearerHeader !== 'undefined') {
