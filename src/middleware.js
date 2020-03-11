@@ -17,7 +17,7 @@ exports.getDate = function() {
 	return dateformat;
 }
 
-exports.beforeEndPoint = function(req, res, next) {
+exports.beforeEndPoint = function(req, res, next) { //JWT verification goes here
 	if(req.path != '/login-admin' && 
 		req.path != '/register-admin' && 
 		getFirstPath(req.path) != '/images' && 

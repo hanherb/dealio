@@ -70,6 +70,36 @@ exports.loginAdmin = function(req, res) {
 	});
 }
 
+exports.getOneMerchant = function(req, res) {
+	db.query("SELECT * FROM merchant WHERE id = "+req.query.id, function(result) {
+		res.json(result);
+	});
+}
+
+exports.getMerchant = function(req, res) {
+	db.query("SELECT * FROM merchant", function(result) {
+		res.json(result);
+	});
+}
+
+exports.addMerchant = function(req, res) {
+	var name = req.body.name;
+    var search_name = req.body.search_name;
+
+	db.query("INSERT INTO merchant (id, name, search_name) VALUES ('', '"+name+"', '"+search_name+"')", function(result) {	
+		res.json(result);
+	});
+}
+
+exports.editMerchant = function(req, res) {
+	var name = req.body.name;
+    var search_name = req.body.search_name;
+
+	db.query("UPDATE merchant SET name = '"+name+"', search_name = '"+search_name+"' WHERE id = "+ req.body.id, function(result) {	
+		res.json(result);
+	});
+}
+
 exports.getOneDeals = function(req, res) {
 	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM deals WHERE id = "+req.query.id, function(result) {
 		res.json(result);
@@ -158,19 +188,19 @@ exports.editEarn = function(req, res) {
 	});
 }
 
-exports.getOneLoyalty = function(req, res) {
-	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM loyalty WHERE id = "+req.query.id, function(result) {
+exports.getOneWin = function(req, res) {
+	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM win WHERE id = "+req.query.id, function(result) {
 		res.json(result);
 	});
 }
 
-exports.getLoyalty = function(req, res) {
-	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM loyalty", function(result) {
+exports.getWin = function(req, res) {
+	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM win", function(result) {
 		res.json(result);
 	});
 }
 
-exports.addLoyalty = function(req, res) {
+exports.addWin = function(req, res) {
 	var name = req.body.name;
     var vendor = req.body.vendor;
     var start_date = req.body.start_date;
@@ -181,12 +211,12 @@ exports.addLoyalty = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("INSERT INTO loyalty (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
+	db.query("INSERT INTO win (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
 		res.json(result);
 	});
 }
 
-exports.editLoyalty = function(req, res) {
+exports.editWin = function(req, res) {
 	var name = req.body.name;
     var vendor = req.body.vendor;
     var start_date = req.body.start_date;
@@ -197,95 +227,7 @@ exports.editLoyalty = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("UPDATE loyalty SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(result);
-	});
-}
-
-exports.getOneDealOfTheMonth = function(req, res) {
-	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM deal_of_the_month WHERE id = "+req.query.id, function(result) {
-		res.json(result);
-	});
-}
-
-exports.getDealOfTheMonth = function(req, res) {
-	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM deal_of_the_month", function(result) {
-		res.json(result);
-	});
-}
-
-exports.addDealOfTheMonth = function(req, res) {
-	var name = req.body.name;
-    var vendor = req.body.vendor;
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var audience = req.body.audience;
-    var description = req.body.description;
-    var action = req.body.action;
-    var action_link = req.body.action_link;
-    var image = req.body.image;
-
-	db.query("INSERT INTO deal_of_the_month (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(result);
-	});
-}
-
-exports.editDealOfTheMonth = function(req, res) {
-	var name = req.body.name;
-    var vendor = req.body.vendor;
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var audience = req.body.audience;
-    var description = req.body.description;
-    var action = req.body.action;
-    var action_link = req.body.action_link;
-    var image = req.body.image;
-
-	db.query("UPDATE deal_of_the_month SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
-		res.json(result);
-	});
-}
-
-exports.getOneDealOfTheWeek = function(req, res) {
-	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM deal_of_the_week WHERE id = "+req.query.id, function(result) {
-		res.json(result);
-	});
-}
-
-exports.getDealOfTheWeek = function(req, res) {
-	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM deal_of_the_week", function(result) {
-		res.json(result);
-	});
-}
-
-exports.addDealOfTheWeek = function(req, res) {
-	var name = req.body.name;
-    var vendor = req.body.vendor;
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var audience = req.body.audience;
-    var description = req.body.description;
-    var action = req.body.action;
-    var action_link = req.body.action_link;
-    var image = req.body.image;
-
-	db.query("INSERT INTO deal_of_the_week (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
-		res.json(result);
-	});
-}
-
-exports.editDealOfTheWeek = function(req, res) {
-	var name = req.body.name;
-    var vendor = req.body.vendor;
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var audience = req.body.audience;
-    var description = req.body.description;
-    var action = req.body.action;
-    var action_link = req.body.action_link;
-    var image = req.body.image;
-
-	db.query("UPDATE deal_of_the_week SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
+	db.query("UPDATE win SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
 		res.json(result);
 	});
 }

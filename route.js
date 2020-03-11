@@ -22,6 +22,14 @@ router.route('/register-admin').post(function(req, res) {rf.registerAdmin(req, r
 
 router.route('/login-admin').post(function(req, res) {rf.loginAdmin(req, res)});
 
+router.route('/get-one-merchant').get(function(req, res) {rf.getOneMerchant(req, res)});
+
+router.route('/get-merchant').get(function(req, res) {rf.getMerchant(req, res)});
+
+router.route('/add-merchant').post(function(req, res) {rf.addMerchant(req, res)});
+
+router.route('/edit-merchant').post(function(req, res) {rf.editMerchant(req, res)});
+
 router.route('/get-one-deals').get(function(req, res) {rf.getOneDeals(req, res)});
 
 router.route('/get-deals').get(function(req, res) {rf.getDeals(req, res)});
@@ -38,29 +46,13 @@ router.route('/add-earn').post(function(req, res) {rf.addEarn(req, res)});
 
 router.route('/edit-earn').post(function(req, res) {rf.editEarn(req, res)});
 
-router.route('/get-one-loyalty').get(function(req, res) {rf.getOneLoyalty(req, res)});
+router.route('/get-one-win').get(function(req, res) {rf.getOneWin(req, res)});
 
-router.route('/get-loyalty').get(function(req, res) {rf.getLoyalty(req, res)});
+router.route('/get-win').get(function(req, res) {rf.getWin(req, res)});
 
-router.route('/add-loyalty').post(function(req, res) {rf.addLoyalty(req, res)});
+router.route('/add-win').post(function(req, res) {rf.addWin(req, res)});
 
-router.route('/edit-loyalty').post(function(req, res) {rf.editLoyalty(req, res)});
-
-router.route('/get-one-deal-of-the-month').get(function(req, res) {rf.getOneDealOfTheMonth(req, res)});
-
-router.route('/get-deal-of-the-month').get(function(req, res) {rf.getDealOfTheMonth(req, res)});
-
-router.route('/add-deal-of-the-month').post(function(req, res) {rf.addDealOfTheMonth(req, res)});
-
-router.route('/edit-deal-of-the-month').post(function(req, res) {rf.editDealOfTheMonth(req, res)});
-
-router.route('/get-one-deal-of-the-week').get(function(req, res) {rf.getOneDealOfTheWeek(req, res)});
-
-router.route('/get-deal-of-the-week').get(function(req, res) {rf.getDealOfTheWeek(req, res)});
-
-router.route('/add-deal-of-the-week').post(function(req, res) {rf.addDealOfTheWeek(req, res)});
-
-router.route('/edit-deal-of-the-week').post(function(req, res) {rf.editDealOfTheWeek(req, res)});
+router.route('/edit-win').post(function(req, res) {rf.editWin(req, res)});
 
 router.route('/post-image').post(upload.single('image'), function(req, res) {rf.postImage(req, res)});
 
