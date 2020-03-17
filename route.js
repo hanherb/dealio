@@ -54,6 +54,14 @@ router.route('/add-win').post(function(req, res) {rf.addWin(req, res)});
 
 router.route('/edit-win').post(function(req, res) {rf.editWin(req, res)});
 
+router.route('/get-one-product-deals').get(function(req, res) {rf.getOneProductDeals(req, res)});
+
+router.route('/get-product-deals').get(function(req, res) {rf.getProductDeals(req, res)});
+
+router.route('/add-product-deals').post(function(req, res) {rf.addProductDeals(req, res)});
+
+router.route('/edit-product-deals').post(function(req, res) {rf.editProductDeals(req, res)});
+
 router.route('/post-image').post(upload.single('image'), function(req, res) {rf.postImage(req, res)});
 
 router.route('/get-otp').get(function(req, res) {rf.getOtp(req, res)});

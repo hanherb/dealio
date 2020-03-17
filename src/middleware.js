@@ -9,12 +9,19 @@ exports.getDate = function() {
 	let day = currentdate.getDate();
 	let month = currentdate.getMonth();
 	let year = currentdate.getFullYear();
+
+    let dateformat = year + '-' + month + '-' + day;
+	return dateformat;
+}
+
+exports.getTime = function() {
+	let currentdate = new Date();
 	let second = currentdate.getSeconds();
     let minute = currentdate.getMinutes();
     let hour = currentdate.getHours();
 
-    let dateformat = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-	return dateformat;
+    let timeformat = hour + ':' + minute + ':' + second;
+	return timeformat;
 }
 
 exports.beforeEndPoint = function(req, res, next) { //JWT verification goes here

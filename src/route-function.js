@@ -40,7 +40,7 @@ exports.registerAdmin = function(req, res) {
 	var username = req.body.username;
 	var password = req.body.password;
 
-	db.query("INSERT INTO users (id, username, password, role_id) VALUES ('', '"+username+"', '"+password+"', 1)", function(result) {	
+	db.query("INSERT INTO admin (id, username, password, role_id) VALUES ('', '"+username+"', '"+password+"', 1)", function(result) {	
 		res.json(1);
 	});
 }
@@ -49,12 +49,12 @@ exports.loginAdmin = function(req, res) {
 	var username = req.body.username;
 	var password = req.body.password;
 
-	db.query("SELECT * FROM users WHERE username = '"+username+"' AND password = '"+password+"'", function(result) {
+	db.query("SELECT * FROM admin WHERE username = '"+username+"' AND password = '"+password+"'", function(result) {
 		if(result.length) {
 			sess.user = result[0];
 
-			db.query("UPDATE users SET last_logged_in = '"+middle.getDate()+"' WHERE id = "+sess.user.id, function(result) {
-				console.log("Logged in at " + middle.getDate());
+			db.query("UPDATE admin SET date_login = '"+middle.getDate()+"', time_login = '"+middle.getTime()+"' WHERE id = "+sess.user.id, function(result) {
+				console.log("Logged in at " + middle.getDate() + " " + middle.getTime());
 			});
 			jwt.sign({
 				id: result[0].id,
@@ -114,7 +114,7 @@ exports.getDeals = function(req, res) {
 
 exports.addDeals = function(req, res) {
 	var name = req.body.name;
-    var vendor = req.body.vendor;
+    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
@@ -123,14 +123,14 @@ exports.addDeals = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("INSERT INTO deals (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
+	db.query("INSERT INTO deals (id, name, audience, start_date, end_date, description, image, action, action_link, merchant_id) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+merchant_id+"')", function(result) {	
 		res.json(result);
 	});
 }
 
 exports.editDeals = function(req, res) {
 	var name = req.body.name;
-    var vendor = req.body.vendor;
+    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
@@ -139,7 +139,7 @@ exports.editDeals = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("UPDATE deals SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
+	db.query("UPDATE deals SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', merchant_id = "+merchant_id+" WHERE id = "+ req.body.id, function(result) {	
 		res.json(result);
 	});
 }
@@ -158,7 +158,7 @@ exports.getEarn = function(req, res) {
 
 exports.addEarn = function(req, res) {
 	var name = req.body.name;
-    var vendor = req.body.vendor;
+    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
@@ -167,14 +167,14 @@ exports.addEarn = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("INSERT INTO earn (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
+	db.query("INSERT INTO earn (id, name, audience, start_date, end_date, description, image, action, action_link, merchant_id) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', "+merchant_id+")", function(result) {	
 		res.json(result);
 	});
 }
 
 exports.editEarn = function(req, res) {
 	var name = req.body.name;
-    var vendor = req.body.vendor;
+    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
@@ -183,7 +183,7 @@ exports.editEarn = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("UPDATE earn SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
+	db.query("UPDATE earn SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', merchant_id = "+merchant_id+" WHERE id = "+ req.body.id, function(result) {	
 		res.json(result);
 	});
 }
@@ -202,7 +202,7 @@ exports.getWin = function(req, res) {
 
 exports.addWin = function(req, res) {
 	var name = req.body.name;
-    var vendor = req.body.vendor;
+    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
@@ -211,14 +211,14 @@ exports.addWin = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("INSERT INTO win (id, name, audience, start_date, end_date, description, image, action, action_link, vendor) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', '"+vendor+"')", function(result) {	
+	db.query("INSERT INTO win (id, name, audience, start_date, end_date, description, image, action, action_link, merchant_id) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', "+merchant_id+")", function(result) {	
 		res.json(result);
 	});
 }
 
 exports.editWin = function(req, res) {
 	var name = req.body.name;
-    var vendor = req.body.vendor;
+    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
@@ -227,7 +227,51 @@ exports.editWin = function(req, res) {
     var action_link = req.body.action_link;
     var image = req.body.image;
 
-	db.query("UPDATE win SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', vendor = '"+vendor+"' WHERE id = "+ req.body.id, function(result) {	
+	db.query("UPDATE win SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', merchant_id = "+merchant_id+" WHERE id = "+ req.body.id, function(result) {	
+		res.json(result);
+	});
+}
+
+exports.getOneProductDeals = function(req, res) {
+	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM product_deals WHERE id = "+req.query.id, function(result) {
+		res.json(result);
+	});
+}
+
+exports.getProductDeals = function(req, res) {
+	db.query("SELECT *, date_format(start_date, '%Y-%m-%d') AS start_date, date_format(end_date, '%Y-%m-%d') AS end_date FROM product_deals", function(result) {
+		res.json(result);
+	});
+}
+
+exports.addProductDeals = function(req, res) {
+	var name = req.body.name;
+    var merchant_id = req.body.merchant_id;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
+    var audience = req.body.audience;
+    var description = req.body.description;
+    var price = req.body.price;
+    var discount = req.body.discount;
+    var image = req.body.image;
+
+	db.query("INSERT INTO product_deals (id, name, audience, start_date, end_date, description, price, discount, image, merchant_id) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', "+price+", "+discount+", '"+image+"', "+merchant_id+")", function(result) {	
+		res.json(result);
+	});
+}
+
+exports.editProductDeals = function(req, res) {
+	var name = req.body.name;
+    var merchant_id = req.body.merchant_id;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
+    var audience = req.body.audience;
+    var description = req.body.description;
+    var price = req.body.price;
+    var discount = req.body.discount;
+    var image = req.body.image;
+
+	db.query("UPDATE product_deals SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', price = "+price+", discount = "+discount+", image = '"+image+"', merchant_id = "+merchant_id+" WHERE id = "+ req.body.id, function(result) {	
 		res.json(result);
 	});
 }
@@ -244,11 +288,11 @@ exports.postImage = function(req, res) {
 exports.getOtp = function(req, res) {
 	var otp =  Math.floor(1000 + Math.random() * 9000);
 
-	db.query("INSERT INTO otp (id, otp_code, status, user_id) VALUES('', '"+otp+"', 1, "+session.user.id+")");
+	db.query("INSERT INTO otp (id, otp_code, status, user_id) VALUES('', '"+otp+"', 1, "+sess.user.id+")");
 	//status 0 = inactive, 1 = active(default), 2 = finished
 
 	const from = 'Dealio';
-	const to = session.user.phone_number;
+	const to = sess.user.phone_number;
 	const text = 'Your One-time Password (OTP) is: ' + otp +'. Do not share this code to anyone.';
 
 	// This function require 0.02 euro
@@ -282,7 +326,7 @@ exports.postOtp = function(req, res) {
 	var password = req.body.password;
 	var otp = req.body.otp;
 
-	db.query("SELECT * FROM users WHERE username = '"+username+"' AND password = '"+password+"'", function(result) {
+	db.query("SELECT * FROM admin WHERE username = '"+username+"' AND password = '"+password+"'", function(result) {
 		if(result.length) {
 			var user_id = result[0].id;
 		}
@@ -302,8 +346,8 @@ exports.postOtp = function(req, res) {
 }
 
 exports.logout = function(req, res) {
-	db.query("UPDATE users SET last_logged_out = '"+middle.getDate()+"' WHERE id = "+sess.user.id, function(result) {
-		console.log("Logged out at " + middle.getDate());
+	db.query("UPDATE admin SET date_logout = '"+middle.getDate()+"', time_logout = '"+middle.getTime()+"' WHERE id = "+sess.user.id, function(result) {
+		console.log("Logged out at " + middle.getDate() + " " + middle.getTime());
 		sess = session;
 		res.json(1);
 	});
