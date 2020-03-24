@@ -25,31 +25,32 @@ exports.getTime = function() {
 }
 
 exports.beforeEndPoint = function(req, res, next) { //JWT verification goes here
-	if(req.path != '/login-admin' && 
-		req.path != '/register-admin' && 
-		getFirstPath(req.path) != '/images' && 
-		req.path != '/logout') {
-		const bearerHeader = req.headers['authorization'];
-		if(typeof bearerHeader !== 'undefined') {
-			const bearer = bearerHeader.split(' ');
-			const bearerToken = bearer[1];
+	// if(req.path != '/login-admin' && 
+	// 	req.path != '/register-admin' && 
+	// 	getFirstPath(req.path) != '/images' && 
+	// 	req.path != '/logout') {
+	// 	const bearerHeader = req.headers['authorization'];
+	// 	if(typeof bearerHeader !== 'undefined') {
+	// 		const bearer = bearerHeader.split(' ');
+	// 		const bearerToken = bearer[1];
 
-			req.token = bearerToken;
-			jwt.verify(req.token, 'kuda', (err, authData) => {
-				if(err) {
-					res.sendStatus(403);
-				}
-				else {
-					// logger(req, res, next);
-					next();
-				}
-			});
-		}
-		else {
-			res.sendStatus(403);
-		}
-	}
-	else {
-		next();
-	}
+	// 		req.token = bearerToken;
+	// 		jwt.verify(req.token, 'kuda', (err, authData) => {
+	// 			if(err) {
+	// 				res.sendStatus(403);
+	// 			}
+	// 			else {
+	// 				// logger(req, res, next);
+	// 				next();
+	// 			}
+	// 		});
+	// 	}
+	// 	else {
+	// 		res.sendStatus(403);
+	// 	}
+	// }
+	// else {
+	// 	next();
+	// }
+	next();
 }
