@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
+-- MySQL dump 10.16  Distrib 10.1.44-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: dealio
 -- ------------------------------------------------------
--- Server version	10.4.11-MariaDB
+-- Server version	10.1.44-MariaDB-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,7 +32,7 @@ CREATE TABLE `admin` (
   `time_logout` time DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'dyo','123','2020-02-17','2020-02-17','16:28:38','16:23:39'),(2,'ronald','123',NULL,NULL,NULL,NULL),(5,'james','123',NULL,NULL,NULL,NULL);
+INSERT INTO `admin` VALUES (1,'dyo','123','2020-02-23','2020-02-23','22:17:59','04:02:57'),(2,'ronald','123',NULL,NULL,NULL,NULL),(5,'james','123',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `deals` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `image` varchar(255) DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   `action_link` varchar(255) DEFAULT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE `deals` (
   PRIMARY KEY (`id`),
   KEY `merchant_id` (`merchant_id`),
   CONSTRAINT `deals_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +75,7 @@ CREATE TABLE `deals` (
 
 LOCK TABLES `deals` WRITE;
 /*!40000 ALTER TABLE `deals` DISABLE KEYS */;
-INSERT INTO `deals` VALUES (1,'Agoda Liburan Hemat Anti Ribet!','Full Audience Group','2020-03-05','2020-03-10','Pesan sekarang paket hemat liburanmu di Agoda melalui Dealio, pesawat + hotel termurah ga pakai ribet. Yuk pesan sekarang!\n\nSyarat dan Ketentuan :\n1. Upload struk pembayaran yang sudah kamu lakukan dari Agoda di menu \"Upload Pembelian Deals\".\n2. Berlaku hanya di Agoda untuk pemesanan paket tiket pesawat plus hotel.\n3. Dapatkan 5 Dealio poin setelah struk terverifikasi.\n4. Periode promo 5 - 15 Maret 2020.\n5. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio. ','','Install','https://invol.co/clli13',8),(2,'Beli 1 gratis 1 minuman dI Dunkin Donut','Full Audience Group','2020-03-05','2020-03-07','Dapatkan Beli 1 gratis 1 minuman dI Dunkin Donut. Upload bukti pembelian nya di campaign \"Upload Pembelian Deals\" dan dapatkan 5 Dealio poin.\n\nSyarat dan ketentuan :\n1. Upload struk pembelian.\n2. Gratis minuman dengan harga sama atau lebih rendah dari harga minuman utama\n3. Berlaku tanpa minimum pembayaran\n4. Berlaku setiap hari Jumat, Sabtu & Minggu, termasuk hari libur nasional\n5. Berlaku untuk pembelian semua jenis minuman\n6. Berlaku untuk transaksi dengan Sakuku, Flazz, Debit BCA & Kartu Kredit BCA\n7. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio.\n      ','','null','null',12),(6,'Banyak diskon untuk produk kecantikan dan kesehatan','Full Audience Group','2020-03-03','2020-03-06','Banyak diskon produk kecantikan dan kesehatan di Farmaku.com. Upload bukti pembelian nya di campaign \"Upload Pembelian Deals\" dan dapatkan 5 Dealio poin.\nDaftar di farmaku.com terlebih dahulu sebelum melakukan pembelian.\n\nSyarat dan ketentuan :\n1. Upload bukti pembelian dari Farmaku.com\n2. Tidak berlaku pembayaran di tempat (COD).\n3. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio.      ','','Install','https://invol.co/clknrw',6);
+INSERT INTO `deals` VALUES (1,'Agoda Liburan Hemat Anti Ribet!','Full Audience Group','2020-03-05','2020-03-10','Pesan sekarang paket hemat liburanmu di Agoda melalui Dealio, pesawat + hotel termurah ga pakai ribet. Yuk pesan sekarang!\n\nSyarat dan Ketentuan :\n1. Upload struk pembayaran yang sudah kamu lakukan dari Agoda di menu \"Upload Pembelian Deals\".\n2. Berlaku hanya di Agoda untuk pemesanan paket tiket pesawat plus hotel.\n3. Dapatkan 5 Dealio poin setelah struk terverifikasi.\n4. Periode promo 5 - 15 Maret 2020.\n5. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio. ','campaign_deals_1.png','Install','https://invol.co/clli13',8),(2,'Beli 1 gratis 1 minuman dI Dunkin Donut','Full Audience Group','2020-03-05','2020-03-07','Dapatkan Beli 1 gratis 1 minuman dI Dunkin Donut. Upload bukti pembelian nya di campaign \"Upload Pembelian Deals\" dan dapatkan 5 Dealio poin.\n\nSyarat dan ketentuan :\n1. Upload struk pembelian.\n2. Gratis minuman dengan harga sama atau lebih rendah dari harga minuman utama\n3. Berlaku tanpa minimum pembayaran\n4. Berlaku setiap hari Jumat, Sabtu & Minggu, termasuk hari libur nasional\n5. Berlaku untuk pembelian semua jenis minuman\n6. Berlaku untuk transaksi dengan Sakuku, Flazz, Debit BCA & Kartu Kredit BCA\n7. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio.\n      ','campaign_deals_2.png','null','null',12),(6,'Banyak diskon untuk produk kecantikan dan kesehatan','Full Audience Group','2020-03-03','2020-03-06','Banyak diskon produk kecantikan dan kesehatan di Farmaku.com. Upload bukti pembelian nya di campaign \"Upload Pembelian Deals\" dan dapatkan 5 Dealio poin.\nDaftar di farmaku.com terlebih dahulu sebelum melakukan pembelian.\n\nSyarat dan ketentuan :\n1. Upload bukti pembelian dari Farmaku.com\n2. Tidak berlaku pembayaran di tempat (COD).\n3. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio.      ','campaign_deals_6.png','Install','https://invol.co/clknrw',6),(10,'Testing Dealio','Full Audience Group','2020-03-23','2020-03-31','Testing gaesssss.....','campaign_deals_10.png','Click Through URL','http://instagram.com',8);
 /*!40000 ALTER TABLE `deals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `earn` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `image` varchar(255) DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   `action_link` varchar(255) DEFAULT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE `earn` (
   PRIMARY KEY (`id`),
   KEY `merchant_id` (`merchant_id`),
   CONSTRAINT `earn_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +232,7 @@ CREATE TABLE `product_deals` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `image` varchar(255) DEFAULT NULL,
   `merchant_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
@@ -240,7 +240,7 @@ CREATE TABLE `product_deals` (
   PRIMARY KEY (`id`),
   KEY `merchant_id` (`merchant_id`),
   CONSTRAINT `product_deals_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,7 +429,7 @@ CREATE TABLE `win` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text DEFAULT NULL,
+  `description` text,
   `image` varchar(255) DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   `action_link` varchar(255) DEFAULT NULL,
@@ -459,4 +459,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-23 16:55:53
+-- Dump completed on 2020-03-25  0:03:25
