@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.44-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.13-MariaDB, for Win32 (AMD64)
 --
 -- Host: localhost    Database: dealio
 -- ------------------------------------------------------
--- Server version	10.1.44-MariaDB-0ubuntu0.18.04.1
+-- Server version	10.4.8-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -41,8 +41,31 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'dyo','123','2020-02-23','2020-02-23','22:17:59','04:02:57'),(2,'ronald','123',NULL,NULL,NULL,NULL),(5,'james','123',NULL,NULL,NULL,NULL);
+INSERT INTO `admin` VALUES (1,'dyo','123','2020-02-26','2020-02-23','12:18:12','04:02:57'),(2,'ronald','123',NULL,NULL,NULL,NULL),(5,'james','123',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -58,7 +81,7 @@ CREATE TABLE `deals` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   `action_link` varchar(255) DEFAULT NULL,
@@ -92,7 +115,7 @@ CREATE TABLE `earn` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   `action_link` varchar(255) DEFAULT NULL,
@@ -150,8 +173,10 @@ DROP TABLE IF EXISTS `merchant`;
 CREATE TABLE `merchant` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `search_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `category_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `merchant_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -161,7 +186,7 @@ CREATE TABLE `merchant` (
 
 LOCK TABLES `merchant` WRITE;
 /*!40000 ALTER TABLE `merchant` DISABLE KEYS */;
-INSERT INTO `merchant` VALUES (3,'A & W','A & W'),(4,'Ace Hardware','Ace Hardware'),(5,'Alfamart','Alfamart'),(6,'Alfamidi','Alfamidi'),(7,'Bakmi GM','Bakmi GM'),(8,'Blibli','Blibli'),(9,'Burger King','Burger King'),(10,'CGV','CGV'),(11,'Cinema XXI','Cinema XXI'),(12,'Dunkin Donuts','Dunkin Donuts'),(13,'Hypermart','Hypermart');
+INSERT INTO `merchant` VALUES (3,'A & W',NULL),(4,'Ace Hardware',NULL),(5,'Alfamart',NULL),(6,'Alfamidi',NULL),(7,'Bakmi GM',NULL),(8,'Blibli',NULL),(9,'Burger King',NULL),(10,'CGV',NULL),(11,'Cinema XXI',NULL),(12,'Dunkin Donuts',NULL),(13,'Hypermart',NULL);
 /*!40000 ALTER TABLE `merchant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,7 +257,7 @@ CREATE TABLE `product_deals` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `merchant_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
@@ -429,14 +454,10 @@ CREATE TABLE `win` (
   `audience` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `action` varchar(255) DEFAULT NULL,
-  `action_link` varchar(255) DEFAULT NULL,
-  `merchant_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `merchant_id` (`merchant_id`),
-  CONSTRAINT `win_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`)
+  `point_redeem` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -446,7 +467,7 @@ CREATE TABLE `win` (
 
 LOCK TABLES `win` WRITE;
 /*!40000 ALTER TABLE `win` DISABLE KEYS */;
-INSERT INTO `win` VALUES (1,'Monthly Deals March','Full Audience Group','2020-03-01','2020-03-31','Menangkan 1 juta rupiah untuk 2 orang pemenang hanya dengan cara undang teman kamu sebanyak - banyaknya ke Dealio dan beri 5 bintang di Google play store.\n\nSyarat & Ketentuan:\n1. Pemenang akan di undi paling lambat tanggal 5 April 2020.\n2. Hadiah akan dikirimkan dalam bentuk poin Dealio sejumlah 20.000 poin untuk 2 orang yang bisa kamu tukarkan dengan voucher-voucher menarik.\n3. Undang teman sebanyak-banyaknya agar kesempatan menang lebih besar.  ','','Refer Friend','null',3);
+INSERT INTO `win` VALUES (1,'Monthly Deals March!','Full Audience Group','2020-03-01','2020-03-31','Menangkan 1 juta rupiah untuk 2 orang pemenang hanya dengan cara undang teman kamu sebanyak - banyaknya ke Dealio dan beri 5 bintang di Google play store.\n\nSyarat & Ketentuan:\n1. Pemenang akan di undi paling lambat tanggal 5 April 2020.\n2. Hadiah akan dikirimkan dalam bentuk poin Dealio sejumlah 20.000 poin untuk 2 orang yang bisa kamu tukarkan dengan voucher-voucher menarik.\n3. Undang teman sebanyak-banyaknya agar kesempatan menang lebih besar.  ','',12000);
 /*!40000 ALTER TABLE `win` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -459,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-25  0:03:25
+-- Dump completed on 2020-03-26 12:19:42

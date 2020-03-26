@@ -84,18 +84,18 @@ exports.getMerchant = function(req, res) {
 
 exports.addMerchant = function(req, res) {
 	var name = req.body.name;
-    var search_name = req.body.search_name;
+    var category_id = req.body.category_id;
 
-	db.query("INSERT INTO merchant (id, name, search_name) VALUES ('', '"+name+"', '"+search_name+"')", function(result) {	
+	db.query("INSERT INTO merchant (id, name, category_id) VALUES ('', '"+name+"', '"+category_id+"')", function(result) {	
 		res.json(result);
 	});
 }
 
 exports.editMerchant = function(req, res) {
 	var name = req.body.name;
-    var search_name = req.body.search_name;
+    var category_id = req.body.category_id;
 
-	db.query("UPDATE merchant SET name = '"+name+"', search_name = '"+search_name+"' WHERE id = "+ req.body.id, function(result) {	
+	db.query("UPDATE merchant SET name = '"+name+"', category_id = '"+category_id+"' WHERE id = "+ req.body.id, function(result) {	
 		res.json(result);
 	});
 }
@@ -202,32 +202,28 @@ exports.getWin = function(req, res) {
 
 exports.addWin = function(req, res) {
 	var name = req.body.name;
-    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
     var description = req.body.description;
-    var action = req.body.action;
-    var action_link = req.body.action_link;
+    var point_redeem = req.body.point_redeem;
     var image = req.body.image;
 
-	db.query("INSERT INTO win (id, name, audience, start_date, end_date, description, image, action, action_link, merchant_id) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', '"+image+"', '"+action+"', '"+action_link+"', "+merchant_id+")", function(result) {	
+	db.query("INSERT INTO win (id, name, audience, start_date, end_date, description, point_redeem, image) VALUES ('', '"+name+"', '"+audience+"', '"+start_date+"', '"+end_date+"', '"+description+"', "+point_redeem+", '"+image+"')", function(result) {	
 		res.json(result);
 	});
 }
 
 exports.editWin = function(req, res) {
 	var name = req.body.name;
-    var merchant_id = req.body.merchant_id;
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
     var audience = req.body.audience;
     var description = req.body.description;
-    var action = req.body.action;
-    var action_link = req.body.action_link;
+    var point_redeem = req.body.point_redeem;
     var image = req.body.image;
 
-	db.query("UPDATE win SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', action = '"+action+"', action_link = '"+action_link+"', image = '"+image+"', merchant_id = "+merchant_id+" WHERE id = "+ req.body.id, function(result) {	
+	db.query("UPDATE win SET name = '"+name+"', audience = '"+audience+"', start_date = '"+start_date+"', end_date = '"+end_date+"', description = '"+description+"', image = '"+image+"', point_redeem = "+point_redeem+" WHERE id = "+ req.body.id, function(result) {	
 		res.json(result);
 	});
 }
