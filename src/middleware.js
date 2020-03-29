@@ -7,7 +7,7 @@ function getFirstPath(path) {
 exports.getDate = function() {
 	let currentdate = new Date();
 	let day = currentdate.getDate();
-	let month = currentdate.getMonth();
+	let month = currentdate.getMonth()+1;
 	let year = currentdate.getFullYear();
 
     let dateformat = year + '-' + month + '-' + day;
