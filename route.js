@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const rf = require('./src/route-function');
 const multer = require('multer');
+const request = require('request');
 
 const router = express.Router();
 
@@ -108,9 +109,9 @@ router.route('/post-banner').post(upload.single('banner'), function(req, res) {r
 
 router.route('/post-merchant-image').post(upload.single('merchant'), function(req, res) {rf.postMerchantImage(req, res)});
 
-router.route('/get-otp').get(function(req, res) {rf.getOtp(req, res)});
+// router.route('/citcall-otp').get(function(req, res) {rf.citcallOtp(req, res)});
 
-router.route('/post-otp').post(function(req, res) {rf.postOtp(req, res)});
+router.route('/set-qrcode').get(function(req, res) {rf.setQrcode(req, res)});
 
 router.route('/logout').get(function(req, res) {rf.logout(req, res)});
 

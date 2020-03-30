@@ -500,64 +500,20 @@ exports.postMerchantImage = function(req, res) {
 	}
 }
 
-exports.getOtp = function(req, res) {
-	var otp =  Math.floor(1000 + Math.random() * 9000);
-
-	db.query("INSERT INTO otp (id, otp_code, status, user_id) VALUES('', '"+otp+"', 1, "+sess.user.id+")");
-	//status 0 = inactive, 1 = active(default), 2 = finished
-
-	const from = 'Dealio';
-	const to = sess.user.phone_number;
-	const text = 'Your One-time Password (OTP) is: ' + otp +'. Do not share this code to anyone.';
-
-	// This function require 0.02 euro
-	// nexmo.message.sendSms(from, to, text, {type: "unicode"}, (err, responseData) => {
- //  		if (err) {
-	//     	console.log(err);
-	//   	} 
-	//   	else {
-	//     	if (responseData.messages[0]['status'] === "0") {
-	//       		console.log("Message sent successfully.");
-	//     	}
-	//     	else {
-	//       		console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
-	//     	}
-	//   	}
-	// });
-
-	res.json(otp);
-
-	// --Send the otp to admin's phone number
-
-	// const sendOtp = new SendOtp('1111');
-	// sendOtp.send("+6282299392596", "PRIIND", function (error, data) {
-	// 	console.log(data);
-	// 	res.json(data);
-	// });
+exports.citcallOtp = function(req, res) {
+	request.post({
+		headers: {'Content-Type' : 'application/json', 'Authorization': 'Apikey 5e69e97b699f5c31dcc16c5e63568e3c'},
+	  	url: 'http://104.199.196.122/gateway/v3/asynccall',
+	  	json: {"msisdn":"082299392596", "gateway":1}
+	}, function(error, response, body){
+	  console.log(body);
+	  res.json(body);
+	});
 }
 
-exports.postOtp = function(req, res) {
-	var username = req.body.username;
-	var password = req.body.password;
-	var otp = req.body.otp;
-
-	db.query("SELECT * FROM admin WHERE username = '"+username+"' AND password = '"+password+"'", function(result) {
-		if(result.length) {
-			var user_id = result[0].id;
-		}
-		else {
-			console.log(404);
-		}
-	});
-
-	var dbOtp = db.query("SELECT * FROM otp WHERE user_id = "+user_id);
-
-	if(otp == dbOtp) {
-		res.json(1);
-	}
-	else {
-		res.json(403);
-	}
+exports.setQrcode = function(req, res) {
+	var qrcode =  '8008' + '9939' + 1 + Math.floor(1000 + Math.random() * 9000);
+	res.json(qrcode);
 }
 
 exports.logout = function(req, res) {
