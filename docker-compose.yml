@@ -1,18 +1,18 @@
 version: '3'
 services: 
-	dealio-services1:
-		build: 
-			context: ./services1
-			dockerfile: Dockerfile
-		image: dealio-backend:0.0.1
-		container_name: dealio-backend
-		networks: 
-			default:
-				ipv4_address: 192.168.0.10
-		ports: 
-			- "127.0.0.1:3000:3000"
+  dealio-services1:
+    build: 
+      context: ./services1
+      dockerfile: Dockerfile
+    image: dealio-backend:0.0.1
+    container_name: dealio-backend
+    networks: 
+      default:
+        ipv4_address: 192.168.0.10
+    ports: 
+      - "127.0.0.1:3000:3000"
 
 networks: 
-	default:
-		external: 
-			name: reverseproxy_nginx
+  default:
+    external: 
+      name: reverseproxy_nginx
