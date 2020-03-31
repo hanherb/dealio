@@ -2,4 +2,5 @@ FROM node:12.14.1
 WORKDIR /dealio
 COPY ./ /dealio
 RUN npm install
-CMD ["node", "app.js"]
+RUN npm install -g pm2
+CMD ["pm2-runtime", "app.js"]
