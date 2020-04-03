@@ -41,8 +41,36 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'dyo','123','2020-03-29','2020-02-23','14:02:55','04:02:57'),(2,'ronald','123',NULL,NULL,NULL,NULL),(5,'james','123',NULL,NULL,NULL,NULL);
+INSERT INTO `admin` VALUES (1,'dyo','123','2020-03-31','2020-02-23','17:30:37','04:02:57'),(2,'ronald','123',NULL,NULL,NULL,NULL),(5,'james','123',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `admin_log`
+--
+
+DROP TABLE IF EXISTS `admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `admin_id` (`admin_id`),
+  CONSTRAINT `admin_log_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_log`
+--
+
+LOCK TABLES `admin_log` WRITE;
+/*!40000 ALTER TABLE `admin_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -59,6 +87,8 @@ CREATE TABLE `audience` (
   `gender` varchar(255) NOT NULL,
   `age_start` int(11) NOT NULL,
   `age_end` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -69,7 +99,7 @@ CREATE TABLE `audience` (
 
 LOCK TABLES `audience` WRITE;
 /*!40000 ALTER TABLE `audience` DISABLE KEYS */;
-INSERT INTO `audience` VALUES (1,'Jakarta Male Audience','Jakarta Selatan','male',21,30);
+INSERT INTO `audience` VALUES (1,'Jakarta Male Audience','Jakarta Selatan','male',21,30,NULL,NULL);
 /*!40000 ALTER TABLE `audience` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,11 +148,16 @@ CREATE TABLE `deals` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `banner` varchar(255) DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `hot_deals` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `merchant_id` (`merchant_id`),
   KEY `audience_id` (`audience_id`),
+  KEY `category_id` (`category_id`),
   CONSTRAINT `deals_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`),
-  CONSTRAINT `deals_ibfk_2` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`)
+  CONSTRAINT `deals_ibfk_2` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`),
+  CONSTRAINT `deals_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -132,7 +167,6 @@ CREATE TABLE `deals` (
 
 LOCK TABLES `deals` WRITE;
 /*!40000 ALTER TABLE `deals` DISABLE KEYS */;
-INSERT INTO `deals` VALUES (1,'Agoda Liburan Hemat Anti Ribet!',1,'2020-03-05','2020-03-10','Pesan sekarang paket hemat liburanmu di Agoda melalui Dealio, pesawat + hotel termurah ga pakai ribet. Yuk pesan sekarang!\n\nSyarat dan Ketentuan :\n1. Upload struk pembayaran yang sudah kamu lakukan dari Agoda di menu \"Upload Pembelian Deals\".\n2. Berlaku hanya di Agoda untuk pemesanan paket tiket pesawat plus hotel.\n3. Dapatkan 5 Dealio poin setelah struk terverifikasi.\n4. Periode promo 5 - 15 Maret 2020.\n5. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio. ','campaign_deals_1.png','Install','https://invol.co/clli13',8,'0000-00-00','00:00:00',NULL),(2,'Beli 1 gratis 1 minuman dI Dunkin Donut',1,'2020-03-05','2020-03-07','Dapatkan Beli 1 gratis 1 minuman dI Dunkin Donut. Upload bukti pembelian nya di campaign \"Upload Pembelian Deals\" dan dapatkan 5 Dealio poin.\n\nSyarat dan ketentuan :\n1. Upload struk pembelian.\n2. Gratis minuman dengan harga sama atau lebih rendah dari harga minuman utama\n3. Berlaku tanpa minimum pembayaran\n4. Berlaku setiap hari Jumat, Sabtu & Minggu, termasuk hari libur nasional\n5. Berlaku untuk pembelian semua jenis minuman\n6. Berlaku untuk transaksi dengan Sakuku, Flazz, Debit BCA & Kartu Kredit BCA\n7. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio.\n      ','campaign_deals_2.png','null','null',12,'0000-00-00','00:00:00',NULL),(6,'Banyak diskon untuk produk kecantikan dan kesehatan',1,'2020-03-03','2020-03-06','Banyak diskon produk kecantikan dan kesehatan di Farmaku.com. Upload bukti pembelian nya di campaign \"Upload Pembelian Deals\" dan dapatkan 5 Dealio poin.\nDaftar di farmaku.com terlebih dahulu sebelum melakukan pembelian.\n\nSyarat dan ketentuan :\n1. Upload bukti pembelian dari Farmaku.com\n2. Tidak berlaku pembayaran di tempat (COD).\n3. Poin akan masuk secara otomatis setelah struk kamu terverifikasi oleh Dealio.      ','campaign_deals_6.png','Install','https://invol.co/clknrw',6,'0000-00-00','00:00:00',NULL),(10,'Testing Dealio',1,'2020-03-23','2020-03-31','Testing gaesssss.....','campaign_deals_10.png','Click Through URL','http://instagram.com',8,'0000-00-00','00:00:00',NULL);
 /*!40000 ALTER TABLE `deals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,11 +191,15 @@ CREATE TABLE `earn` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `banner` varchar(255) DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `category_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `merchant_id` (`merchant_id`),
   KEY `audience_id` (`audience_id`),
+  KEY `category_id` (`category_id`),
   CONSTRAINT `earn_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`),
-  CONSTRAINT `earn_ibfk_2` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`)
+  CONSTRAINT `earn_ibfk_2` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`),
+  CONSTRAINT `earn_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -171,7 +209,6 @@ CREATE TABLE `earn` (
 
 LOCK TABLES `earn` WRITE;
 /*!40000 ALTER TABLE `earn` DISABLE KEYS */;
-INSERT INTO `earn` VALUES (1,'Via.com Online Travel Fair',1,'2020-03-01','2020-03-09','Pesan tiket pesawat mu hanya di Via.com Travel Fair dan dapatkan 20 Dealio poin!\n\n1. Pesan tiket dengan tujuan kemana saja melalui Via.com.\n2. Upload struk invoice pembayaran tiket pesawat dari Via.com.\n3. Poin akan terkirim setelah terverifikasi oleh Dealio.','','Click Through URL','https://www.via.id/?utm_source=2657542&utm_medium=dealio&utm_campaign=dealio_x_via',8,'0000-00-00','00:00:00',NULL),(4,'Download Indogold untuk investasi emas mudah & terpercaya.',1,'2020-03-02','2020-03-10',' Download INDOGOLD dan Dapatkan 20 Dealio Poin!\n\nUntuk mendapatkan 20 poin, cara nya gampang :\n1. Klik Interested.\n2. Klik Download Google Play.\n3. Download / Install Indogold di Smartphone kamu.\n4. Pilih Sign up atau Daftar.\n5. Screenshot Menu Profile kamu dan upload di \"Upload bukti disini\" yang ada di menu Earn.\n6. Poin akan terkirim paling lambat 1x24 jam setelah terverifikasi oleh Dealio.   \n       ','','Install','https://indogold.app.link/kD5ziXXLX3',6,'0000-00-00','00:00:00',NULL);
 /*!40000 ALTER TABLE `earn` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,7 +229,14 @@ CREATE TABLE `event` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `description` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `location` varchar(255) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `action_link` varchar(255) NOT NULL,
+  `audience_id` int(11) NOT NULL,
+  `point` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `audience_id` (`audience_id`),
+  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -223,6 +267,7 @@ CREATE TABLE `horoscope` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `description` text DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -273,11 +318,8 @@ DROP TABLE IF EXISTS `merchant`;
 CREATE TABLE `merchant` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `category_id` int(11) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `category_id` (`category_id`),
-  CONSTRAINT `merchant_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -287,8 +329,35 @@ CREATE TABLE `merchant` (
 
 LOCK TABLES `merchant` WRITE;
 /*!40000 ALTER TABLE `merchant` DISABLE KEYS */;
-INSERT INTO `merchant` VALUES (3,'A & W',1,NULL),(4,'Ace Hardware',1,NULL),(5,'Alfamart',1,NULL),(6,'Alfamidi',1,NULL),(7,'Bakmi GM',1,NULL),(8,'Blibli',1,NULL),(9,'Burger King',1,NULL),(10,'CGV',1,NULL),(11,'Cinema XXI',1,NULL),(12,'Dunkin Donuts',1,NULL),(13,'Hypermart',1,NULL),(15,'Starbucks',1,NULL),(16,'Pizza Hut',1,NULL);
+INSERT INTO `merchant` VALUES (3,'A & W',NULL),(4,'Ace Hardware',NULL),(5,'Alfamart',NULL),(6,'Alfamidi',NULL),(7,'Bakmi GM',NULL),(8,'Blibli',NULL),(9,'Burger King',NULL),(10,'CGV',NULL),(11,'Cinema XXI',NULL),(12,'Dunkin Donuts',NULL),(13,'Hypermart',NULL),(15,'Starbucks',NULL),(16,'Pizza Hut',NULL);
 /*!40000 ALTER TABLE `merchant` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `merchant_location`
+--
+
+DROP TABLE IF EXISTS `merchant_location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `merchant_location` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `merchant_id` int(11) NOT NULL,
+  `store_name` varchar(255) NOT NULL,
+  `coordinate` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `merchant_id` (`merchant_id`),
+  CONSTRAINT `merchant_location_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `merchant_location`
+--
+
+LOCK TABLES `merchant_location` WRITE;
+/*!40000 ALTER TABLE `merchant_location` DISABLE KEYS */;
+/*!40000 ALTER TABLE `merchant_location` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -309,6 +378,8 @@ CREATE TABLE `news` (
   `time` time NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `banner` varchar(255) DEFAULT NULL,
+  `source_link` varchar(255) DEFAULT NULL,
+  `point` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -364,7 +435,7 @@ CREATE TABLE `otp_regis` (
   PRIMARY KEY (`id`),
   KEY `regis_phone_number_id` (`regis_phone_number_id`),
   CONSTRAINT `otp_regis_ibfk_1` FOREIGN KEY (`regis_phone_number_id`) REFERENCES `regis_phone_number` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -373,7 +444,31 @@ CREATE TABLE `otp_regis` (
 
 LOCK TABLES `otp_regis` WRITE;
 /*!40000 ALTER TABLE `otp_regis` DISABLE KEYS */;
+INSERT INTO `otp_regis` VALUES (7,7,'8913','2020-04-02','12:00:25');
 /*!40000 ALTER TABLE `otp_regis` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phone_number_list`
+--
+
+DROP TABLE IF EXISTS `phone_number_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `phone_number_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone_number` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phone_number_list`
+--
+
+LOCK TABLES `phone_number_list` WRITE;
+/*!40000 ALTER TABLE `phone_number_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phone_number_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -397,11 +492,16 @@ CREATE TABLE `product_deals` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `banner` varchar(255) DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `hot_deals` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `merchant_id` (`merchant_id`),
   KEY `audience_id` (`audience_id`),
+  KEY `category_id` (`category_id`),
   CONSTRAINT `product_deals_ibfk_1` FOREIGN KEY (`merchant_id`) REFERENCES `merchant` (`id`),
-  CONSTRAINT `product_deals_ibfk_2` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`)
+  CONSTRAINT `product_deals_ibfk_2` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`),
+  CONSTRAINT `product_deals_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -412,6 +512,64 @@ CREATE TABLE `product_deals` (
 LOCK TABLES `product_deals` WRITE;
 /*!40000 ALTER TABLE `product_deals` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_deals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `refcode_input`
+--
+
+DROP TABLE IF EXISTS `refcode_input`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `refcode_input` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `refcode_list_id` int(11) NOT NULL,
+  `phone_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `refcode_list_id` (`refcode_list_id`),
+  KEY `phone_id` (`phone_id`),
+  CONSTRAINT `refcode_input_ibfk_1` FOREIGN KEY (`refcode_list_id`) REFERENCES `refcode_list` (`id`),
+  CONSTRAINT `refcode_input_ibfk_2` FOREIGN KEY (`phone_id`) REFERENCES `regis_phone_number` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `refcode_input`
+--
+
+LOCK TABLES `refcode_input` WRITE;
+/*!40000 ALTER TABLE `refcode_input` DISABLE KEYS */;
+/*!40000 ALTER TABLE `refcode_input` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `refcode_list`
+--
+
+DROP TABLE IF EXISTS `refcode_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `refcode_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `user_refcode` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `refcode_list_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `refcode_list`
+--
+
+LOCK TABLES `refcode_list` WRITE;
+/*!40000 ALTER TABLE `refcode_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `refcode_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -428,7 +586,7 @@ CREATE TABLE `regis_phone_number` (
   `time` time NOT NULL,
   `status_regis` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,6 +595,7 @@ CREATE TABLE `regis_phone_number` (
 
 LOCK TABLES `regis_phone_number` WRITE;
 /*!40000 ALTER TABLE `regis_phone_number` DISABLE KEYS */;
+INSERT INTO `regis_phone_number` VALUES (6,'082299392596','2020-04-02','11:58:50',2),(7,'082299392596','2020-04-02','12:00:25',1),(8,'008111804','2020-04-02','12:07:01',0);
 /*!40000 ALTER TABLE `regis_phone_number` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,6 +616,7 @@ CREATE TABLE `stream` (
   `banner` varchar(255) DEFAULT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
+  `point` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -485,6 +645,7 @@ CREATE TABLE `user_detail` (
   `city` varchar(255) DEFAULT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
+  `age` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -538,10 +699,10 @@ CREATE TABLE `user_google` (
   `family_name` varchar(255) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -568,7 +729,7 @@ CREATE TABLE `user_manual` (
   `time` time NOT NULL,
   `email` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -577,6 +738,7 @@ CREATE TABLE `user_manual` (
 
 LOCK TABLES `user_manual` WRITE;
 /*!40000 ALTER TABLE `user_manual` DISABLE KEYS */;
+INSERT INTO `user_manual` VALUES (2,'082299392596','123','2020-04-02','12:04:56','dyo@gmail.com');
 /*!40000 ALTER TABLE `user_manual` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -596,7 +758,7 @@ CREATE TABLE `users` (
   `time` time NOT NULL,
   `login_method` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -605,6 +767,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Hanindyo Herbowo','dyo@gmail.com','082299392596','2020-04-02','12:04:56','');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -627,9 +790,13 @@ CREATE TABLE `win` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `banner` varchar(255) DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `audience_id` (`audience_id`),
-  CONSTRAINT `win_ibfk_1` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`)
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `win_ibfk_1` FOREIGN KEY (`audience_id`) REFERENCES `audience` (`id`),
+  CONSTRAINT `win_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -639,7 +806,6 @@ CREATE TABLE `win` (
 
 LOCK TABLES `win` WRITE;
 /*!40000 ALTER TABLE `win` DISABLE KEYS */;
-INSERT INTO `win` VALUES (1,'Monthly Deals March!',1,'2020-03-01','2020-03-31','Menangkan 1 juta rupiah untuk 2 orang pemenang hanya dengan cara undang teman kamu sebanyak - banyaknya ke Dealio dan beri 5 bintang di Google play store.\n\nSyarat & Ketentuan:\n1. Pemenang akan di undi paling lambat tanggal 5 April 2020.\n2. Hadiah akan dikirimkan dalam bentuk poin Dealio sejumlah 20.000 poin untuk 2 orang yang bisa kamu tukarkan dengan voucher-voucher menarik.\n3. Undang teman sebanyak-banyaknya agar kesempatan menang lebih besar.  ','',12000,'0000-00-00','00:00:00',NULL),(3,'Baru!',1,'2020-03-02','2020-03-09','baru nih','undefined',5000,'2020-03-28','17:43:30',NULL);
 /*!40000 ALTER TABLE `win` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -652,4 +818,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-29 16:34:24
+-- Dump completed on 2020-04-02 13:27:35
